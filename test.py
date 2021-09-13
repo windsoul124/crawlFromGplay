@@ -1,7 +1,9 @@
-import pandas as pd
-data = pd.read_excel('appInfo.xlsx')
-result = data.values.tolist()
-res = []
-for s in result:
-    res.append('https://play.google.com/store/apps/details?id=' + s[2])
-print(res)
+import requests
+
+
+data = {
+  'f.req': '[[["xdSrCf","[[null,[\\"com.sc.scorecreator\\",7],[]]]",null,"1"]]]',
+}
+url = 'https://play.google.com/_/PlayStoreUi/data/batchexecute?rpcids=xdSrCf&f.sid=-3751894382704443719&bl=boq_playuiserver_20210908.03_p0&hl=en-US&authuser&soc-app=121&soc-platform=1&soc-device=1&_reqid=164510&rt=c'
+response = requests.post(url, headers={"content-type": "application/x-www-form-urlencoded"},data=data)
+print(response.text)
