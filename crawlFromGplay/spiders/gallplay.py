@@ -4,6 +4,7 @@ from scrapy.spiders import Rule
 from urllib.parse import urlparse
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 class LanguageLinkExtractor(LxmlLinkExtractor):
+
     # def __init__(self, allow=(), deny=(), allow_domains=(), deny_domains=(), restrict_xpaths=(),
     #              canonicalize=True,
     #              unique=True, process_value=None, deny_extensions=None, restrict_css=()):
@@ -27,7 +28,7 @@ class LanguageLinkExtractor(LxmlLinkExtractor):
         return links;
 
 class GplaySpider(scrapy.Spider):
-
+    """爬取全站 暂时废弃"""
     name = 'gallplay'
     allowed_domains = ["play.google.com"]
 

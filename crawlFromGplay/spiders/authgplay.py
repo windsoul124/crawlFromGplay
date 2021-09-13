@@ -3,16 +3,20 @@ from crawlFromGplay.items import CrawlfromgplayItem
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 import pandas as pd
-from urllib.parse import urlparse
+
+
 class GplaySpider(scrapy.Spider):
+    """
+        使用selenium进行模拟点击，爬取POST请求
+        读取ExceL表格中的包名拼接进入地址
+    """
     name = 'authgplay'
     allowed_domains = ["play.google.com"]
     data = pd.read_excel('appInfo.xlsx')
     result = data.values.tolist()
     urls = []
     for s in result:
-
-        urls.append('https://play.google.com/store/apps/details?id='+ s[2])
+        urls.append('https://play.google.com/store/apps/details?id=' + s[2])
     start_urls = urls
 
     rules = (
@@ -25,14 +29,11 @@ class GplaySpider(scrapy.Spider):
         return scrapy.Request(url=response.url, callback=self.parse)
 
     def parse(self, response):
-        items = 0
         titles = response.xpath('/html')
         for title in titles:
             item = CrawlfromgplayItem()
             # item['Link'] = title.xpath('/html/head/link[4]/@href').extract_first()
-            #
             # item['Icon'] = title.xpath('//div[@class="xSyT2c"]/img/@src').extract_first()
-            #
             # item['Author'] = title.xpath('//a[@class="hrTbp R8zArc"]/text()').extract_first()
             # item['Category'] = title.xpath('//a[@itemprop="genre"]/text()').extract_first()
             # item['Rating'] = title.xpath('//div[@class="pf5lIe"]/div/@aria-label').extract_first()
@@ -45,7 +46,6 @@ class GplaySpider(scrapy.Spider):
             # item['Version'] = title.xpath('//div[contains(text(),"Version")]/following-sibling::span/div/span/text()').extract_first()
             # item['Compatibility'] = title.xpath('//div[contains(text(),"Requires Android")]/following-sibling::span/div/span/text()').extract_first()
             # item['Content_rating'] = title.xpath('//div[contains(text(),"Content Rating")]/following-sibling::span/div/span/div/text()').extract_first()
-
             # item['Developer_website'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[0]
             # item['Developer_email'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[1]
             # item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[2]

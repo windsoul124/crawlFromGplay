@@ -4,31 +4,33 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 import pandas as pd
 from urllib.parse import urlparse
+
+
 class GplaySpider(scrapy.Spider):
+    """正常爬取每页数据
+       通过Excel读取"""
     name = 'gplay'
     allowed_domains = ["play.google.com"]
     data = pd.read_excel('appInfo.xlsx')
     result = data.values.tolist()
     urls = []
     for s in result:
-
-        urls.append('https://play.google.com/store/apps/details?id='+ s[2])
+        urls.append('https://play.google.com/store/apps/details?id=' + s[2])
     start_urls = urls
 
     rules = (
         Rule(LinkExtractor(allow=('/store/apps',), deny=('/store/apps/details',)), follow=True),
         Rule(LinkExtractor(allow=("/store/apps/details",)), follow=True, callback='parse_link'),
     )
+
     def parse_start_url(self, response):
         return scrapy.Request(url=response.url, callback=self.parse)
 
     def parse(self, response):
-        items = 0
         titles = response.xpath('/html')
         for title in titles:
             item = CrawlfromgplayItem()
             item['Link'] = title.xpath('/html/head/link[4]/@href').extract_first()
-
             item['Icon'] = title.xpath('//div[@class="xSyT2c"]/img/@src').extract_first()
             item['Item_name'] = title.xpath('//h1[@class="AHFaub"]/span/text()').extract_first()
             item['Author'] = title.xpath('//a[@class="hrTbp R8zArc"]/text()').extract_first()
