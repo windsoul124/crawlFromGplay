@@ -34,7 +34,7 @@ ROBOTSTXT_OBEY = False
 #COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
-#TELNETCONSOLE_ENABLED = False
+TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
@@ -45,12 +45,11 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+# Enable or disable downloader middlewares
+# # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 # SPIDER_MIDDLEWARES = {
 #    'crawlFromGplay.middlewares.SeleniumDownloadMiddleware': 543,
 # }
-
-# Enable or disable downloader middlewares
-# # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 # DOWNLOADER_MIDDLEWARES = {
 #    'crawlFromGplay.middlewares.SeleniumDownloadMiddleware': 543,
 # }
@@ -63,9 +62,9 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   'crawlFromGplay.pipelines.CrawlfromgplayPipeline': 300,
-}
+# ITEM_PIPELINES = {
+#    'crawlFromGplay.pipelines.CrawlfromgplayPipeline': 300,
+# }
 
 MONGODB_URI = 'mongodb://127.0.0.1:27017'
 MONGODB_DATABASE = 'scrapy'

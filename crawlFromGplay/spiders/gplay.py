@@ -28,6 +28,7 @@ class GplaySpider(scrapy.Spider):
         for title in titles:
             item = CrawlfromgplayItem()
             item['Link'] = title.xpath('/html/head/link[4]/@href').extract_first()
+
             item['Icon'] = title.xpath('//div[@class="xSyT2c"]/img/@src').extract_first()
             item['Item_name'] = title.xpath('//h1[@class="AHFaub"]/span/text()').extract_first()
             item['Author'] = title.xpath('//a[@class="hrTbp R8zArc"]/text()').extract_first()
@@ -44,8 +45,9 @@ class GplaySpider(scrapy.Spider):
             item['Content_rating'] = title.xpath('//div[contains(text(),"Content Rating")]/following-sibling::span/div/span/div/text()').extract_first()
             # item['Authority'] = response.xpath('//li[@class="BCMWSd"]').extract()
             item['Developer_website'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[0]
-            item['Developer_email'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[1]
-            item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[2]
+            # item['Developer_email'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[1]
+            # item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[2]
+            item['Package'] = title.xpath('/html/head/meta[19]/@content').extract_first()
             yield item
 
 

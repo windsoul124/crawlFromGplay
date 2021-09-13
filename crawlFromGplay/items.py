@@ -39,12 +39,14 @@ class CrawlfromgplayItem(scrapy.Item):
     Content_rating = scrapy.Field()
     # 互动元素
     # 权限(等待测试)
-    # Authority = scrapy.Field()
+    Authority = scrapy.Field()
     # 开发者网站
     Developer_website = scrapy.Field()
     # 开发者邮箱
     Developer_email = scrapy.Field()
     # 开发者地址
     Developer_address = scrapy.Field()
+    # 包名
+    Package = scrapy.Field()
     # 测试
 
