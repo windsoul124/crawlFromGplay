@@ -18,13 +18,13 @@ class GplaySpider(scrapy.Spider):
         urls.append('https://play.google.com/store/apps/details?id=' + s[2])
     start_urls = urls
 
-    rules = (
-        Rule(LinkExtractor(allow=('/store/apps',), deny=('/store/apps/details',)), follow=True),
-        Rule(LinkExtractor(allow=("/store/apps/details",)), follow=True, callback='parse_link'),
-    )
+    # rules = (
+    #     Rule(LinkExtractor(allow=('/store/apps',), deny=('/store/apps/details',)), follow=True),
+    #     Rule(LinkExtractor(allow=("/store/apps/details",)), follow=True, callback='parse_link'),
+    # )
 
-    def parse_start_url(self, response):
-        return scrapy.Request(url=response.url, callback=self.parse)
+    # def parse_start_url(self, response):
+    #     return scrapy.Request(url=response.url, callback=self.parse)
 
     def parse(self, response):
         titles = response.xpath('/html')
@@ -51,6 +51,7 @@ class GplaySpider(scrapy.Spider):
             # item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[2]
             item['Package'] = title.xpath('/html/head/meta[19]/@content').extract_first()
             yield item
+        yield scrapy.Request(url=response.url, callback=self.parse)
 
 
 
