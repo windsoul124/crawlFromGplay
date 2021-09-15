@@ -11,11 +11,12 @@ class GplaySpider(scrapy.Spider):
        通过Excel读取"""
     name = 'gplay'
     allowed_domains = ["play.google.com"]
-    data = pd.read_excel('appInfo.xlsx')
+    data = pd.read_csv('PHL_app_scrape.csv')
+    # data = pd.read_excel('appInfo.xlsx')
     result = data.values.tolist()
     urls = []
     for s in result:
-        urls.append('https://play.google.com/store/apps/details?id=' + s[2])
+        urls.append('https://play.google.com/store/apps/details?id=' + s[1])
     start_urls = urls
 
     # rules = (
