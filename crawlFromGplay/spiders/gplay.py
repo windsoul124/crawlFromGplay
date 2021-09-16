@@ -11,21 +11,22 @@ class GplaySpider(scrapy.Spider):
        通过Excel读取"""
     name = 'gplay'
     allowed_domains = ["play.google.com"]
-    data = pd.read_csv('PHL_app_scrape.csv')
-    # data = pd.read_excel('appInfo.xlsx')
+    # data = pd.read_csv('PHL_app_scrape.csv')
+    # data = pd.read_csv('pageage_name_PH.csv')
+    data = pd.read_excel('appInfo_test.xlsx')
     result = data.values.tolist()
     urls = []
     for s in result:
-        urls.append('https://play.google.com/store/apps/details?id=' + s[1])
+        urls.append('https://play.google.com/store/apps/details?id=' + s[2])
     start_urls = urls
 
-    # rules = (
-    #     Rule(LinkExtractor(allow=('/store/apps',), deny=('/store/apps/details',)), follow=True),
-    #     Rule(LinkExtractor(allow=("/store/apps/details",)), follow=True, callback='parse_link'),
-    # )
+    rules = (
+        Rule(LinkExtractor(allow=('/store/apps',), deny=('/store/apps/details',)), follow=True),
+        Rule(LinkExtractor(allow=("/store/apps/details",)), follow=True, callback='parse_link'),
+    )
 
-    # def parse_start_url(self, response):
-    #     return scrapy.Request(url=response.url, callback=self.parse)
+    def parse_start_url(self, response):
+        return scrapy.Request(url=response.url, callback=self.parse)
 
     def parse(self, response):
         titles = response.xpath('/html')
@@ -52,7 +53,7 @@ class GplaySpider(scrapy.Spider):
             # item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[2]
             item['Package'] = title.xpath('/html/head/meta[19]/@content').extract_first()
             yield item
-        yield scrapy.Request(url=response.url, callback=self.parse)
+        # yield scrapy.Request(url=response.url, callback=self.parse)
 
 
 
