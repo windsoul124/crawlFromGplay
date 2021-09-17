@@ -3,14 +3,14 @@ from crawlFromGplay.items import CrawlfromgplayItem
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 import pandas as pd
-from urllib.parse import urlparse
 
 
 class GplaySpider(scrapy.Spider):
-    """正常爬取每页数据
-       通过Excel读取"""
+    """爬取页面静态信息"""
     name = 'gplay'
     allowed_domains = ["play.google.com"]
+
+    # 从Excel中读包名
     # data = pd.read_csv('PHL_app_scrape.csv')
     # data = pd.read_csv('pageage_name_PH.csv')
     data = pd.read_excel('appInfo_test.xlsx')
@@ -20,11 +20,13 @@ class GplaySpider(scrapy.Spider):
         urls.append('https://play.google.com/store/apps/details?id=' + s[2])
     start_urls = urls
 
+    # 爬取规则
     rules = (
         Rule(LinkExtractor(allow=('/store/apps',), deny=('/store/apps/details',)), follow=True),
         Rule(LinkExtractor(allow=("/store/apps/details",)), follow=True, callback='parse_link'),
     )
 
+    # 循环爬取
     def parse_start_url(self, response):
         return scrapy.Request(url=response.url, callback=self.parse)
 
@@ -47,13 +49,11 @@ class GplaySpider(scrapy.Spider):
             item['Version'] = title.xpath('//div[contains(text(),"Version")]/following-sibling::span/div/span/text()').extract_first()
             item['Compatibility'] = title.xpath('//div[contains(text(),"Requires Android")]/following-sibling::span/div/span/text()').extract_first()
             item['Content_rating'] = title.xpath('//div[contains(text(),"Content Rating")]/following-sibling::span/div/span/div/text()').extract_first()
-            # item['Authority'] = response.xpath('//li[@class="BCMWSd"]').extract()
             item['Developer_website'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[0]
             # item['Developer_email'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[1]
             # item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[2]
             item['Package'] = title.xpath('/html/head/meta[19]/@content').extract_first()
             yield item
-        # yield scrapy.Request(url=response.url, callback=self.parse)
 
 
 

@@ -9,6 +9,7 @@ class GplaySpider(scrapy.Spider):
     """
         使用selenium进行模拟点击，爬取POST请求
         读取ExceL表格中的包名拼接进入地址
+        使用需打开Settings中的MiddleWare
     """
     name = 'authgplay'
     allowed_domains = ["play.google.com"]

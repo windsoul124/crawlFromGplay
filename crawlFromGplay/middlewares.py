@@ -2,14 +2,15 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
-from scrapy import signals
 from selenium import webdriver
 from scrapy.http.response.html import HtmlResponse
 import time
-# useful for handling different item types with a single interface
-from itemadapter import is_item, ItemAdapter
+
+
 class SeleniumDownloadMiddleware(object):
+    """使用Selenium模拟启动浏览器
+        点击链接爬取页面动态加载信息
+        发送POST请求更加快速"""
     def __init__(self):
         self.driver = webdriver.Chrome()
 
@@ -18,9 +19,9 @@ class SeleniumDownloadMiddleware(object):
         time.sleep(0.5)
         try:
             while True:
-                ShowMore1 = self.driver.find_element_by_xpath('//a[@jsname="Hly47e"]')
-                ShowMore1.click()
-                if not ShowMore1:
+                ShowMore = self.driver.find_element_by_xpath('//a[@jsname="Hly47e"]')
+                ShowMore.click()
+                if not ShowMore:
                     break
         except:
             pass

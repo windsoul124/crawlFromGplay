@@ -1,16 +1,13 @@
 import copy
-
 import scrapy
 from crawlFromGplay.items import CrawlfromgplayItem
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 import pandas as pd
-from urllib.parse import urlparse
 
 
 class GplaySpider(scrapy.Spider):
-    """正常爬取每页数据
-       通过Excel读取"""
+    """测试多级请求，结果不可用"""
     name = 'gallplay'
     allowed_domains = ["play.google.com"]
     # data = pd.read_csv('PHL_app_scrape.csv')

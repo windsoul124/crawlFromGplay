@@ -2,7 +2,6 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
-
 import scrapy
 
 
@@ -37,8 +36,7 @@ class CrawlfromgplayItem(scrapy.Item):
     Compatibility = scrapy.Field()
     # 内容分级
     Content_rating = scrapy.Field()
-    # 互动元素
-    # 权限(等待测试)
+    # 权限
     Authority = scrapy.Field()
     # 开发者网站
     Developer_website = scrapy.Field()

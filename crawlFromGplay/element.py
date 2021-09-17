@@ -6,6 +6,7 @@ def nested_lookup(source, indexes):
         return source[indexes[0]]
     return nested_lookup(source[indexes[0]], indexes[1::])
 
+
 class ElementSpec:
     def __init__(
         self,
@@ -37,6 +38,7 @@ class ElementSpec:
                 result = self.fallback_value
 
         return result
+
 
 class ElementSpecs:
 
