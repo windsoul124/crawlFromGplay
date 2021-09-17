@@ -46,5 +46,11 @@ class CrawlfromgplayItem(scrapy.Item):
     Developer_address = scrapy.Field()
     # 包名
     Package = scrapy.Field()
+    # 价钱（Install为免费，收费则显示价格）
+    Price = scrapy.Field()
+    # 分数
+    Score = scrapy.Field()
+    # 相似
+    Similar = scrapy.Field()
     # 测试
 

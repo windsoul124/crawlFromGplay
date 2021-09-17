@@ -50,9 +50,12 @@ class GplaySpider(scrapy.Spider):
             item['Compatibility'] = title.xpath('//div[contains(text(),"Requires Android")]/following-sibling::span/div/span/text()').extract_first()
             item['Content_rating'] = title.xpath('//div[contains(text(),"Content Rating")]/following-sibling::span/div/span/div/text()').extract_first()
             item['Developer_website'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[0]
-            # item['Developer_email'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[1]
-            # item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[2]
+            item['Developer_email'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a[@class="hrTbp euBY6b"]/text()').extract_first()
+            item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/text()').extract_first()
             item['Package'] = title.xpath('/html/head/meta[19]/@content').extract_first()
+            item['Price'] = title.xpath('//span[@class="oocvOe"]/button/@aria-label').extract_first()
+            item['Score'] = title.xpath('//div[@class="BHMmbe"]/text()').extract_first()
+            item['Similar'] = title.xpath('//div[@class="WsMG1c nnK0zc"]').extract()
             yield item
 
 
