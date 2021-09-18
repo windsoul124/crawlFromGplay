@@ -18,11 +18,12 @@ class PostdemoSpider(scrapy.Spider):
 
     url = []      # 请求参数集
     package = []  # 抓取包名
-    data = pd.read_excel('appInfo_test.xlsx')
+    data = pd.read_csv('pageage_name_PH.csv')
+    # data = pd.read_excel('appInfo_test.xlsx')
     result = data.values.tolist()
     for s in result:
-        url.append('[[["xdSrCf","[[null,[\\"{0}{1}"'.format(s[2], '\\",7],[]]]",null,"1"]]]'))  # 需多加转义字符
-        package.append(s[2])
+        url.append('[[["xdSrCf","[[null,[\\"{0}{1}"'.format(s[0], '\\",7],[]]]",null,"1"]]]'))  # 需多加转义字符
+        package.append(s[0])
 
     def start_requests(self):
         """POST请求时，请求头参数需较全"""

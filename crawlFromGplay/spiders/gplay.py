@@ -12,12 +12,12 @@ class GplaySpider(scrapy.Spider):
 
     # 从Excel中读包名
     # data = pd.read_csv('PHL_app_scrape.csv')
-    # data = pd.read_csv('pageage_name_PH.csv')
-    data = pd.read_excel('appInfo_test.xlsx')
+    data = pd.read_csv('pageage_name_PH.csv')
+    # data = pd.read_excel('appInfo_test.xlsx')
     result = data.values.tolist()
     urls = []
     for s in result:
-        urls.append('https://play.google.com/store/apps/details?id=' + s[2])
+        urls.append('https://play.google.com/store/apps/details?id=' + s[0])
     start_urls = urls
 
     # 爬取规则
@@ -55,7 +55,7 @@ class GplaySpider(scrapy.Spider):
             item['Package'] = title.xpath('/html/head/meta[19]/@content').extract_first()
             item['Price'] = title.xpath('//span[@class="oocvOe"]/button/@aria-label').extract_first()
             item['Score'] = title.xpath('//div[@class="BHMmbe"]/text()').extract_first()
-            item['Similar'] = title.xpath('//div[@class="WsMG1c nnK0zc"]').extract()
+            item['Similar'] = title.xpath('//div[@class="WsMG1c nnK0zc"]/text()').extract()
             yield item
 
 
