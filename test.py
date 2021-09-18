@@ -7,10 +7,10 @@ import pandas as pd
 # for s in result:
 #      urls.append('https://play.google.com/store/apps/details?id=' + s[0])
 
-df1 = pd.read_csv('test.csv')
-df2 = pd.read_csv('test1.csv')
+df1 = pd.read_csv('PH_APPDATA_INFO_9_18.csv')
+df2 = pd.read_csv('PH_APPDATA_PERMISSION_9_18.csv')
 # print(df1)
 # print(df2)
-result = pd.merge(df1, df2, on='Package', how='inner')
+result = df1.join(df2.set_index('Package'), on='Package')
 print(result)
 # result.to_csv('test2.csv')
