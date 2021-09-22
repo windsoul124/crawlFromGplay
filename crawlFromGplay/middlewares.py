@@ -28,4 +28,3 @@ class SeleniumDownloadMiddleware(object):
         source = self.driver.page_source
         response = HtmlResponse(url=self.driver.current_url, body=source, encoding='utf-8', request=request)
         return response
-

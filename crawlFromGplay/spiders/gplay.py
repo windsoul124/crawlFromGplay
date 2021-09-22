@@ -3,6 +3,7 @@ from crawlFromGplay.items import CrawlfromgplayItem
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 import pandas as pd
+import json
 
 
 class GplaySpider(scrapy.Spider):
@@ -12,7 +13,7 @@ class GplaySpider(scrapy.Spider):
 
     # 从Excel中读包名
     # data = pd.read_csv('PHL_app_scrape.csv')
-    data = pd.read_csv('pageage_name_PH.csv')
+    data = pd.read_csv('pageage_name_VN.csv')
     # data = pd.read_excel('appInfo_test.xlsx')
     result = data.values.tolist()
     urls = []
@@ -34,28 +35,45 @@ class GplaySpider(scrapy.Spider):
         titles = response.xpath('/html')
         for title in titles:
             item = CrawlfromgplayItem()
-            item['Link'] = title.xpath('/html/head/link[4]/@href').extract_first()
-            item['Icon'] = title.xpath('//div[@class="xSyT2c"]/img/@src').extract_first()
-            item['Item_name'] = title.xpath('//h1[@class="AHFaub"]/span/text()').extract_first()
-            item['Author'] = title.xpath('//a[@class="hrTbp R8zArc"]/text()').extract_first()
-            item['Category'] = title.xpath('//a[@itemprop="genre"]/text()').extract_first()
-            item['Rating'] = title.xpath('//div[@class="pf5lIe"]/div/@aria-label').extract_first()
-            item['Detail'] = title.xpath('//div[@jsname="sngebd"]/text()').extract()
-            item['Description'] = title.xpath('//meta[@name="description"]/@content').extract_first()
-            item['Review_number'] = title.xpath('//span[@class="EymY4b"]/span[2]/text()').extract_first()
-            item['Update'] = title.xpath('//div[contains(text(),"Updated")]/following-sibling::span/div/span/text()').extract_first()
-            item['Size'] = title.xpath('//div[contains(text(),"Size")]/following-sibling::span/div/span/text()').extract_first()
-            item['Installs'] = title.xpath('//div[contains(text(),"Installs")]/following-sibling::span/div/span/text()').extract_first()
-            item['Version'] = title.xpath('//div[contains(text(),"Version")]/following-sibling::span/div/span/text()').extract_first()
-            item['Compatibility'] = title.xpath('//div[contains(text(),"Requires Android")]/following-sibling::span/div/span/text()').extract_first()
-            item['Content_rating'] = title.xpath('//div[contains(text(),"Content Rating")]/following-sibling::span/div/span/div/text()').extract_first()
-            item['Developer_website'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a/@href').extract()[0]
-            item['Developer_email'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/a[@class="hrTbp euBY6b"]/text()').extract_first()
-            item['Developer_address'] = title.xpath('//div[contains(text(),"Developer")]/following-sibling::span/div/span/div/text()').extract_first()
-            item['Package'] = title.xpath('/html/head/meta[19]/@content').extract_first()
-            item['Price'] = title.xpath('//span[@class="oocvOe"]/button/@aria-label').extract_first()
-            item['Score'] = title.xpath('//div[@class="BHMmbe"]/text()').extract_first()
-            item['Similar'] = title.xpath('//div[@class="WsMG1c nnK0zc"]/text()').extract()
+            item['title'] = title.xpath('//h1[@class="AHFaub"]/span/text()').extract_first()
+            item['appId'] = title.xpath('/html/head/meta[19]/@content').extract_first()
+            item['description'] = title.xpath('//div[@jsname="sngebd"]/text()').extract()
+            item['summary'] = title.xpath('//meta[@name="description"]/@content').extract_first()
+            item['url'] = title.xpath('/html/head/link[4]/@href').extract_first()
+            item['installs'] = title.xpath(
+                '//div[contains(text(),"Installs")]/following-sibling::span/div/span/text()').extract_first()
+            item['price'] = title.xpath('//span[@class="oocvOe"]/button/@aria-label').extract_first()
+            item['size'] = title.xpath(
+                '//div[contains(text(),"Size")]/following-sibling::span/div/span/text()').extract_first()
+            item['androidVersionText'] = title.xpath(
+                '//div[contains(text(),"Requires Android")]/following-sibling::span/div/span/text()').extract_first()
+            item['androidVersion'] = title.xpath(
+                '//div[contains(text(),"Requires Android")]/following-sibling::span/div/span/text()').extract_first().replace(
+                ' and up', '')
+            item['developer'] = title.xpath('//a[@class="hrTbp R8zArc"]/text()').extract_first()
+            item['genre'] = title.xpath('//a[@itemprop="genre"]/text()').extract_first()
+            item['contentRating'] = title.xpath(
+                '//div[contains(text(),"Content Rating")]/following-sibling::span/div/span/div/text()').extract_first()
+            item['minInstalls'] = title.xpath(
+                '//div[contains(text(),"Installs")]/following-sibling::span/div/span/text()').extract_first().replace(
+                ',', '').replace('+', '')
+            item['released'] = title.xpath(
+                '//div[contains(text(),"Updated")]/following-sibling::span/div/span/text()').extract_first()
+            item['version'] = title.xpath(
+                '//div[contains(text(),"Version")]/following-sibling::span/div/span/text()').extract_first()
+            item['privacyPolicy'] = title.xpath(
+                '//span[@class="htlgb"]/div/a[contains(text(), "Privacy Policy")]/@href').extract_first()
+            dom = title.xpath('//*[@id="fcxH9b"]/div[4]/c-wiz/div/script/text()').extract()
+            match = json.loads(dom[0])
+            contains_offer = match['offers']
+            item['price'] = contains_offer[0]['price']
+            item['currency'] = contains_offer[0]['priceCurrency']
+            contains_aggregate = match['aggregateRating']
+            item['score'] = contains_aggregate['ratingValue']
+            item['ratings'] = contains_aggregate['ratingCount']
+            item['genreId'] = match['applicationCategory']
+            item['containsAds'] = title.xpath(
+                '//*[@id="fcxH9b"]/div[4]/c-wiz/div/div[2]/div/div/main/c-wiz[1]/c-wiz[1]/div/div[2]/div/div[1]/div[2]/text()').extract_first()
             yield item
 
 

@@ -6,51 +6,62 @@ import scrapy
 
 
 class CrawlfromgplayItem(scrapy.Item):
-    # 链接
-    Link = scrapy.Field()
-    # 图标
-    Icon = scrapy.Field()
-    # 名字
-    Item_name = scrapy.Field()
-    # 作者
-    Author = scrapy.Field()
-    # 分类
-    Category = scrapy.Field()
-    # 评分
-    Rating = scrapy.Field()
-    # 简介
-    Detail = scrapy.Field()
-    # 介绍
-    Description = scrapy.Field()
-    # 人数
-    Review_number = scrapy.Field()
+    # apptitle（varchar）
+    title = scrapy.Field()
+    # app包名（varchar）
+    appId = scrapy.Field()
+    # app描述（varchar）
+    description = scrapy.Field()
+    # app短介绍（varchar）
+    summary = scrapy.Field()
+    # 链接（varchar）
+    url = scrapy.Field()
+    # 安装量（varchar）
+    installs = scrapy.Field()
+    # 最小安装量（varchar）
+    minInstalls = scrapy.Field()
+    # 得分(float)
+    score = scrapy.Field()
+    # 评级(int)
+    ratings = scrapy.Field()
+    # 价格(float)
+    price = scrapy.Field()
+    # 货币(varchar)
+    currency = scrapy.Field()
+    # app大小(varchar)
+    size = scrapy.Field()
+    # 安卓版本(varchar)
+    androidVersion = scrapy.Field()
+    # 安卓版本text(varchar)
+    androidVersionText = scrapy.Field()
+    # 开发者(varchar)
+    developer = scrapy.Field()
+    # 隐私政策(varchar)
+    privacyPolicy = scrapy.Field()
+    # app分类(varchar)
+    genre = scrapy.Field()
+    # app分类id(varchar)
+    genreId = scrapy.Field()
+    # 人群(varchar)
+    contentRating = scrapy.Field()
+    # 是否包含广告(varchar)
+    containsAds = scrapy.Field()
+    # APP版本
+    version = scrapy.Field()
     # 更新时间
-    Update = scrapy.Field()
-    # 大小
-    Size = scrapy.Field()
-    # 安装次数
-    Installs = scrapy.Field()
-    # 版本
-    Version = scrapy.Field()
-    # Andriod系统版本要求
-    Compatibility = scrapy.Field()
-    # 内容分级
-    Content_rating = scrapy.Field()
+    released = scrapy.Field()
     # 权限
-    Authority = scrapy.Field()
+    permission = scrapy.Field()
+
+    # 图标
+    # Icon = scrapy.Field()
     # 开发者网站
-    Developer_website = scrapy.Field()
+    # Developer_website = scrapy.Field()
     # 开发者邮箱
-    Developer_email = scrapy.Field()
+    # Developer_email = scrapy.Field()
     # 开发者地址
-    Developer_address = scrapy.Field()
-    # 包名
-    Package = scrapy.Field()
-    # 价钱（Install为免费，收费则显示价格）
-    Price = scrapy.Field()
-    # 分数
-    Score = scrapy.Field()
+    # Developer_address = scrapy.Field()
     # 相似
-    Similar = scrapy.Field()
-    # 测试
+    # Similar = scrapy.Field()
+
 

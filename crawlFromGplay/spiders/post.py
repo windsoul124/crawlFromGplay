@@ -62,7 +62,7 @@ class PostdemoSpider(scrapy.Spider):
     def parse(self, response):
         """解析包名和权限"""
         item = CrawlfromgplayItem()
-        item['Package'] = response.meta['data']
+        item['appId'] = response.meta['data']
         permission_regx = re.compile("\)]}'\n\n([\s\S]+)")
         # 清洗数据
         dom = permission_regx.findall(response.text)[0]
@@ -79,7 +79,7 @@ class PostdemoSpider(scrapy.Spider):
                     res[
                         ElementSpecs.Permission_Type.extract_content(permission)
                     ] = ElementSpecs.Permission_List.extract_content(permission)
-        item['Authority'] = res
+        item['permission'] = res
         yield item
 
 

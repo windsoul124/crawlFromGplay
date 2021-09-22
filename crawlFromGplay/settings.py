@@ -50,7 +50,8 @@ DEFAULT_REQUEST_HEADERS = {
 #    'crawlFromGplay.middlewares.SeleniumDownloadMiddleware': 543,
 # }
 # DOWNLOADER_MIDDLEWARES = {
-#    'crawlFromGplay.middlewares.SeleniumDownloadMiddleware': 543,
+#   'crawlFromGplay.middlewares.SeleniumDownloadMiddleware': 543,
+#
 # }
 
 # Enable or disable extensions
