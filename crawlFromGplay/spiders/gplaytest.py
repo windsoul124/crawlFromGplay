@@ -8,7 +8,7 @@ import pandas as pd
 import json
 
 class GplaySpider(scrapy.Spider):
-    """爬取页面静态信息"""
+    """测试爬虫"""
     name = 'gplaytest'
     allowed_domains = ["play.google.com"]
 

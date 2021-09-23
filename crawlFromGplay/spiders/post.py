@@ -87,14 +87,6 @@ class PostdemoSpider(scrapy.Spider):
 
 
 
-
-
-
-
-
-
-
-        PERMISSIONS = re.compile("\\)]}'\n\n([\s\S]+)")
         # matches = json.loads(PERMISSIONS.findall(dom)[0])
         # print(matches)
         # print(matches)
