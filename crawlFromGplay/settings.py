@@ -8,10 +8,9 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 BOT_NAME = 'crawlFromGplay'
-
 SPIDER_MODULES = ['crawlFromGplay.spiders']
 NEWSPIDER_MODULE = 'crawlFromGplay.spiders'
-
+FEED_EXPORT_ENCODING = 'utf-8'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36'
 
@@ -62,14 +61,21 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'crawlFromGplay.pipelines.CrawlfromgplayPipeline': 300,
-# }
+ITEM_PIPELINES = {
+   'crawlFromGplay.pipelines.CrawlfromgplayPipeline': 300,
+}
 
-MONGODB_URI = 'mongodb://127.0.0.1:27017'
-MONGODB_DATABASE = 'scrapy'
-MONGODB_COLLECTION = 'GP version1.0'
-MONGODB_UNIQUE_KEY = 'Item_name'
+# MONGODB_URI = 'mongodb://127.0.0.1:27017'
+# MONGODB_DATABASE = 'scrapy'
+# MONGODB_COLLECTION = 'GP version1.0'
+# MONGODB_UNIQUE_KEY = 'Item_name'
+
+
+MYSQL_HOST = "192.168.124.105"
+MYSQL_PORT = 3306
+MYSQL_DBNAME = "Nigeria"
+MYSQL_USER = "root"
+MYSQL_PASSWORD = "123456"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

@@ -4,6 +4,7 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 import pandas as pd
 import json
+import re
 
 
 class GplaySpider(scrapy.Spider):
@@ -13,12 +14,12 @@ class GplaySpider(scrapy.Spider):
 
     # 从Excel中读包名
     # data = pd.read_csv('PHL_app_scrape.csv')
-    data = pd.read_csv('pageage_name_VN.csv')
-    # data = pd.read_excel('appInfo_test.xlsx')
+    # data = pd.read_csv('pageage_name_VN.csv')
+    data = pd.read_excel('appInfo_test.xlsx')
     result = data.values.tolist()
     urls = []
     for s in result:
-        urls.append('https://play.google.com/store/apps/details?id=' + s[0])
+        urls.append('https://play.google.com/store/apps/details?id=' + s[2])
     start_urls = urls
 
     # 爬取规则
@@ -32,12 +33,23 @@ class GplaySpider(scrapy.Spider):
         return scrapy.Request(url=response.url, callback=self.parse)
 
     def parse(self, response):
+        emoji_pattern = re.compile(
+            u"(\ud83d[\ude00-\ude4f])|"  # emoticons
+            u"(\ud83c[\udf00-\uffff])|"  # symbols & pictographs (1 of 2)
+            u"(\ud83d[\u0000-\uddff])|"  # symbols & pictographs (2 of 2)
+            u"(\ud83d[\ude80-\udeff])|"  # transport & map symbols
+            u"(\ud83c[\udde0-\uddff])"  # flags (iOS)
+            "+", flags=re.UNICODE)
         titles = response.xpath('/html')
         for title in titles:
             item = CrawlfromgplayItem()
             item['title'] = title.xpath('//h1[@class="AHFaub"]/span/text()').extract_first()
             item['appId'] = title.xpath('/html/head/meta[19]/@content').extract_first()
-            item['description'] = title.xpath('//div[@jsname="sngebd"]/text()').extract()
+            # item['description'] =  emoji_pattern.search(title.xpath('//div[@jsname="sngebd"]/text()').extract()).encode('unicode-escape')
+            # item['description'] = title.xpath('//div[@jsname="sngebd"]/text()').extract()
+            list = title.xpath('//div[@jsname="sngebd"]/text()').extract()
+            s = ' '.join(list)
+            item['description'] = s
             item['summary'] = title.xpath('//meta[@name="description"]/@content').extract_first()
             item['url'] = title.xpath('/html/head/link[4]/@href').extract_first()
             item['installs'] = title.xpath(
