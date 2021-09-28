@@ -15,11 +15,13 @@ class GplaySpider(scrapy.Spider):
     # 从Excel中读包名
     # data = pd.read_csv('PHL_app_scrape.csv')
     # data = pd.read_csv('pageage_name_VN.csv')
-    data = pd.read_excel('appInfo_test.xlsx')
+    data = pd.read_csv('nig_package.csv')
+    # data = pd.read_excel('appInfo_test.xlsx')
+
     result = data.values.tolist()
     urls = []
     for s in result:
-        urls.append('https://play.google.com/store/apps/details?id=' + s[2])
+        urls.append('https://play.google.com/store/apps/details?id=' + s[0])
     start_urls = urls
 
     # 爬取规则
