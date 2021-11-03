@@ -47,10 +47,10 @@ class CrawlfromgplayPipeline(object):
     def do_insert(self, cursor, item):
         # 对数据库进行插入操作，并不需要commit，twisted会自动commit
         insert_sql = """
-        insert into APP_Data(title, appId, description, summary, url, 
-        installs, minInstalls, score, ratings, price, currency, 
-        size, androidVersion, androidVersionText, developer, 
-        privacyPolicy, genre, genreId, contentRating, containsAds, 
+        insert into vn_app_info(app_name, package_name, description, summary, url, 
+        installs, min_installs, score, ratings, price, currency, 
+        size, android_version, android_version_text, developer, 
+        privacy_policy, genre, genre_id, content_rating, contains_ads, 
         version, released) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,
         %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """
