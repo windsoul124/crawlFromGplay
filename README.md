@@ -1,3 +1,5 @@
 # crawlFromGplay
 
-1. 根据包名爬取GooglePlay商店应用信息
+* Crawl the android apps information according to the package name from the Google Play
+* Using Scrapy as the main framework to crawl data
+* Save the data into cloud database asynchronously
